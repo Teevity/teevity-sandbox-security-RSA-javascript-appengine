@@ -1,0 +1,173 @@
+package com.teevity.sandbox.crypto;
+
+import java.io.InputStream;
+import java.security.Key;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import javax.crypto.Cipher;
+import java.security.cert.Certificate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.servlet.http.*;
+
+import com.google.appengine.repackaged.com.google.common.util.Base64;
+
+/**
+ * 
+ * @author Mathieu Passenaud
+ *
+ */
+@SuppressWarnings("serial")
+public class CryptoProjectOnAppengineServlet extends HttpServlet {
+	
+	// Logger
+	private Logger _log = Logger.getLogger(CryptoProjectOnAppengineServlet.class.getName());
+	//
+	// keys
+	//
+	private PrivateKey privateKey;
+	private PublicKey publicKey;
+
+	/**
+	 * Opens the keystore file.
+	 * Throw a Runtime Exception if any error
+	 * @param fileName
+	 * @param keyStorePassword
+	 * @param keyStoreType
+	 * @return
+	 */
+	public KeyStore loadKeyStore(String fileName, String keyStorePassword, String keyStoreType){
+		
+		KeyStore keyStore;
+		try {
+			keyStore = KeyStore.getInstance(keyStoreType);
+			//
+			// Get file from class loader
+			//
+			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			InputStream is = classLoader.getResourceAsStream(fileName);
+			
+			//
+			// Load the key store
+			//
+			keyStore.load(is, keyStorePassword.toCharArray());
+			return keyStore;
+			
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, "Error while loading your keystore file ["+fileName+"] ["+e.getMessage()+"]");
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Load the private and public keys from a given keyStore
+	 * Throws a runtime exception if any error
+	 * @param alias
+	 * @param password
+	 */
+	public void loadKeys(KeyStore keyStore, String alias, String password){
+		try {
+			//
+			// Load the key from the keystore
+			//
+			Key key = keyStore.getKey(alias, password.toCharArray());
+			if(key instanceof PrivateKey) {
+				Certificate cert=keyStore.getCertificate(alias);
+				publicKey=cert.getPublicKey();
+				privateKey= (PrivateKey) key; 
+			}
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, "Error while loading your keys ["+alias+"] ["+e.getMessage()+"]");
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		}
+		
+	}
+
+	/**
+	 * 
+	 * @param readableData
+	 * @param algorithm
+	 * @param encoding
+	 * @return
+	 */
+	public String encryptData(String readableData, String algorithm, String encoding){
+		
+		// Get a cipher object.
+		Cipher cipher;
+		try {
+			cipher = Cipher.getInstance(algorithm);
+			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+			// Gets the raw bytes to encrypt, UTF8 is needed for
+			// having a standard character set
+			byte[] stringBytes;
+			
+			stringBytes = readableData.getBytes(encoding);
+			// encrypt using the cypher
+			byte[] raw = cipher.doFinal(stringBytes);
+			
+			// converts to base64 for easier display.
+			String base64 = Base64.encode(raw);
+			
+			return base64;
+			
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, "Error while encrypting your data ["+readableData+"] with algorithm ["+algorithm+"] and encoding ["+encoding+"] ["+e.getMessage()+"]");
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+
+	/**
+	 * 
+	 * @param unreableData
+	 * @param algorithm
+	 * @param encoding
+	 * @return
+	 */
+	public String decrypt(String unreadableData, String algorithm, String encoding){
+
+		// Get a cipher object.
+		Cipher cipher;
+		try {
+			cipher = Cipher.getInstance(algorithm);
+		
+			cipher.init(Cipher.DECRYPT_MODE, privateKey);
+			
+			//decode the BASE64 coded message
+			byte[] raw = null;
+			raw = Base64.decode(unreadableData);
+			//decode the message
+			byte[] stringBytes = cipher.doFinal(raw);
+			
+			//converts the decoded message to a String
+			String clear = new String(stringBytes, encoding);
+			return clear;
+		} catch (Exception e) {
+			//
+			// No such algorithm
+			//
+			_log.log(Level.SEVERE, "No such algorithm ["+algorithm+"] ["+e.getMessage()+"]");
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+
+
+
+	public void doPost(HttpServletRequest req, HttpServletResponse resp){
+			doGet(req, resp);
+	}
+	public void doGet(HttpServletRequest req, HttpServletResponse resp){
+		String encrypted = req.getParameter("encrypted").replace(' ', '+');
+		String password = "t33v!ty";
+		String alias = "teevityEncryptData";
+		String keyStoreType = "JKS";
+		KeyStore keyStore = loadKeyStore("teevityKeyStore", password, keyStoreType);
+		loadKeys(keyStore, alias, password);
+		System.out.println(decrypt(encrypted, "RSA", "UTF8"));
+	}
+}

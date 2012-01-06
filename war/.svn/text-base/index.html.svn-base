@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
+<!-- above set at the top of the file will set     -->
+<!-- the browser's rendering engine into           -->
+<!-- "Quirks Mode". Replacing this declaration     -->
+<!-- with a "Standards Mode" doctype is supported, -->
+<!-- but may lead to some differences in layout.   -->
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Hello App Engine</title>
+    
+    <script language="JavaScript" type="text/javascript" src="JS/jsbn.js"></script>
+	<script language="JavaScript" type="text/javascript" src="JS/prng4.js"></script>
+	<script language="JavaScript" type="text/javascript" src="JS/rng.js"></script>
+	<script language="JavaScript" type="text/javascript" src="JS/rsa.js"></script>
+	<script language="JavaScript" type="text/javascript" src="JS/base64.js"></script>
+	<script language="JavaScript" type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+	<script langage="javascript">
+	function do_encrypt_and_send() {
+		  var rsa = new RSAKey();
+		  rsa.setPublic($("#publicKey").val(), $("#exponent").val());
+		  var res = rsa.encrypt($("#clearData").val());
+		  var after = new Date();
+		  if(res) {
+		    //document.rsatest.ciphertext.value = linebrk(res, 64);
+		    $("#encryptedData").val(hex2b64(res), 64);
+		  }
+		  $.ajax({
+			   type: "POST",
+			   url: "cryptoprojectonappengine",
+			   data: "encrypted="+hex2b64(res),
+			   success: function(msg){
+			   }
+			 });
+		}
+	</script>
+  </head>
+
+  <body>
+    <h1>Hello App Engine!</h1>
+	
+    <table>
+      <tr>
+        <td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
+      </tr>
+    </table>
+    <textarea id="publicKey" name='publicKey' style="display: none;" >B502A5811C32AC586FF5E85F1E138FBB2418D6CBD148E2DC51350CF9E3F99E86
+D75C7865ADB31F1A93C263CFBE36C54BFDDDFB15552CB13180EAFAB573D1A146
+D1C7F2C5903F4AF41F409B027E15E4CBD85E7B7475746F308873899F4EA706E0
+9B2096BF49C34C7F9018F059F5BD079078A6E1EB7D5BAF4A09A58E232D99F851</textarea>
+    <input type="hidden" id="exponent" value="10001"/><br />
+    Non encrypted Data : <textarea id="clearData"></textarea><br />
+    Encrypted Data : <textarea id="encryptedData"></textarea>
+    <input type='button' onClick="do_encrypt_and_send()" />
+  </body>
+</html>

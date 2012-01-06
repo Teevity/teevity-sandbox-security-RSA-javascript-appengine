@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/testRepository/!svn/ver/23/trunk/Sandbox-CloudPlatform-Security-RSA-javascript-appengine/war/WEB-INF/lib
+END
+datanucleus-jpa-1.1.5.jar
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/testRepository/!svn/ver/23/trunk/Sandbox-CloudPlatform-Security-RSA-javascript-appengine/war/WEB-INF/lib/datanucleus-jpa-1.1.5.jar
+END
+jdo2-api-2.3-eb.jar
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/testRepository/!svn/ver/23/trunk/Sandbox-CloudPlatform-Security-RSA-javascript-appengine/war/WEB-INF/lib/jdo2-api-2.3-eb.jar
+END
+appengine-jsr107cache-1.5.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/testRepository/!svn/ver/23/trunk/Sandbox-CloudPlatform-Security-RSA-javascript-appengine/war/WEB-INF/lib/appengine-jsr107cache-1.5.2.jar
+END
+datanucleus-appengine-1.0.9.final.jar
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/testRepository/!svn/ver/23/trunk/Sandbox-CloudPlatform-Security-RSA-javascript-appengine/war/WEB-INF/lib/datanucleus-appengine-1.0.9.final.jar
+END
+geronimo-jpa_3.0_spec-1.1.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/testRepository/!svn/ver/23/trunk/Sandbox-CloudPlatform-Security-RSA-javascript-appengine/war/WEB-INF/lib/geronimo-jpa_3.0_spec-1.1.1.jar
+END
+jsr107cache-1.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/testRepository/!svn/ver/23/trunk/Sandbox-CloudPlatform-Security-RSA-javascript-appengine/war/WEB-INF/lib/jsr107cache-1.1.jar
+END
+geronimo-jta_1.1_spec-1.1.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/testRepository/!svn/ver/23/trunk/Sandbox-CloudPlatform-Security-RSA-javascript-appengine/war/WEB-INF/lib/geronimo-jta_1.1_spec-1.1.1.jar
+END
+datanucleus-core-1.1.5.jar
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/testRepository/!svn/ver/23/trunk/Sandbox-CloudPlatform-Security-RSA-javascript-appengine/war/WEB-INF/lib/datanucleus-core-1.1.5.jar
+END
+appengine-api-1.0-sdk-1.5.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/testRepository/!svn/ver/23/trunk/Sandbox-CloudPlatform-Security-RSA-javascript-appengine/war/WEB-INF/lib/appengine-api-1.0-sdk-1.5.2.jar
+END
+appengine-api-labs-1.5.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/testRepository/!svn/ver/23/trunk/Sandbox-CloudPlatform-Security-RSA-javascript-appengine/war/WEB-INF/lib/appengine-api-labs-1.5.2.jar
+END
