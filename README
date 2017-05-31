@@ -1,5 +1,8 @@
+When you want to ensure that no critical information sent from a Web browser will be
+logged in clear inside the server-side logs, once the information is out of the HTTPS channel,
+it is useful to encrypt it directly in JS. This is what this library does.
+
 Encrypt your data with RSA using Javascript.
 The public key is in the index.html file IN HEXADECIMAL FORMAT.
 All certificates and keys are stored in a keystore file in war/WEB-INF/example
 
-M. Passenaud
